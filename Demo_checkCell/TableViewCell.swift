@@ -9,9 +9,12 @@
 import UIKit
 
 typealias heightChange = (cellFlag:Bool) -> Void
+typealias likeChange = (cellFlag:Bool) -> Void
 
 class defalutTableViewCell: UITableViewCell {
     var flag = true
+    var show = false
+    var likeflag = true
     var nameLabel = UILabel()
     var avatorImage:UIImageView!
     let pbVC = PhotoBrowser()
@@ -24,10 +27,12 @@ class defalutTableViewCell: UITableViewCell {
     let menuview = Menu()
     var zhankaiBtn:UIButton!
     var collectionViewFrame = CGRectMake(0, 0, 0, 0)
-    var cellflag1 = true
+    var cellflag1 = false
     var heightZhi:heightChange?
-    var likeView = UIView()
-    let likeViewBackImage = UIImageView()
+    var likechange:likeChange?
+    var likeView = CommentView()
+    var likeLabelArray:[String] = []
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -49,21 +54,19 @@ class defalutTableViewCell: UITableViewCell {
         timeLabel.text = "两小时前"
         btn.setImage(UIImage(named:"menu"), forState: .Normal)
         btn.addTarget(self, action: #selector(defalutTableViewCell.click), forControlEvents: .TouchUpInside)
+        
         self.contentView.addSubview(contentLabel)
         self.contentView.addSubview(displayView)
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(btn)
-        self.contentView.addSubview(self.menuview)
-        //self.likeViewBackImage.image = UIImage(named:"comment")
-        self.likeView.backgroundColor = UIColor(patternImage: UIImage(named:"comment")!)
-        //self.likeView.addSubview(self.likeViewBackImage)
-        //self.contentView.addSubview(self.likeViewBackImage)
-        self.contentView.addSubview(self.likeView)
+        
     }
     
     func click(){
         menuview.clickMenu()
     }
+    
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -75,7 +78,7 @@ class defalutTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String]){
+    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String],likeItem:Bool){
         var h = cellHeightByData(content)
         let h1 = cellHeightByData1(imgData.count)
         var h2:CGFloat = 0.0
@@ -121,11 +124,21 @@ class defalutTableViewCell: UITableViewCell {
         self.menuview.frame = CGRectMake(0, h2 - 8, 14.5, 0)
         self.menuview.frame.origin.x = UIScreen.mainScreen().bounds.width - 10 - 15
         self.menuview.likeBtn.setImage(UIImage(named: "likewhite"), forState: .Normal)
-        self.menuview.likeBtn.setTitle("赞", forState: .Normal)
+        if !likeItem{
+            self.menuview.likeBtn.setTitle("赞", forState: .Normal)
+            likeflag = !likeItem
+        }
+        if likeItem{
+            self.menuview.likeBtn.setTitle("取消赞", forState: .Normal)
+            likeflag = !likeItem
+        }
+        
         self.menuview.likeBtn.titleLabel?.font = UIFont.systemFontOfSize(14)
         self.menuview.commentBtn.setImage(UIImage(named: "c"), forState: .Normal)
         self.menuview.commentBtn.setTitle("评论", forState: .Normal)
         self.menuview.commentBtn.titleLabel?.font = UIFont.systemFontOfSize(14)
+        self.menuview.likeBtn.tag = indexRow.row
+        self.menuview.likeBtn.addTarget(self, action: #selector(defalutTableViewCell.LikeBtn(_:)), forControlEvents: .TouchUpInside)
         for i in 0..<imgData.count{
             let imgUrl = imgData[i]
             self.remoteImage.append(imgUrl)
@@ -144,9 +157,14 @@ class defalutTableViewCell: UITableViewCell {
         /**  设置数据  */
         pbVC.photoModels = models
         if like.count > 0{
-            self.likeView.frame = CGRectMake(55,h2+15,60,15)
-            self.likeViewBackImage.frame = self.likeView.frame
+            self.likeView.frame = CGRectMake(55,h2+19.5,UIScreen.mainScreen().bounds.width - 10 - 55 - 15,40)
+            for i in 0..<like.count{
+                likeLabelArray.append(like[i])
+            }
+            self.likeView.likeLabel.text = likeLabelArray.joinWithSeparator(",")
+            self.contentView.addSubview(self.likeView)
         }
+        self.contentView.addSubview(self.menuview)
     }
         
     func clickDown(sender:UIButton){
@@ -166,5 +184,28 @@ class defalutTableViewCell: UITableViewCell {
         }
         
     }
+    
+    func LikeBtn(sender:UIButton){
+        
+        
+        if !likeflag{
+            
+            //服务器接口上传数据
+            goodComm[sender.tag]["good"]!.removeAtIndex(goodComm[sender.tag]["good"]!.indexOf("胖大海")!)
+            if self.likechange != nil{
+                self.likechange!(cellFlag: self.likeflag)
+            }
+            menuview.menuHide()
+        }
+        else{
+            goodComm[sender.tag]["good"]!.append("胖大海")
+            if self.likechange != nil{
+                self.likechange!(cellFlag: self.likeflag)
+            }
+            menuview.menuHide()
+        }
+        
+    }
+
 
 }

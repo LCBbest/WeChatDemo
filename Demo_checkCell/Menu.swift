@@ -24,7 +24,7 @@ class Menu:UIView{
         self.backgroundColor = UIColor(red: 60/255, green: 64/255, blue: 66/255, alpha: 1)
         self.setNeedsLayout()
         self.likeBtn.frame = CGRectMake(0, 0, 80, 35)
-        self.likeBtn.addTarget(self, action: #selector(Menu.LikeBtn), forControlEvents: .TouchUpInside)
+        //self.likeBtn.addTarget(self, action: #selector(Menu.LikeBtn), forControlEvents: .TouchUpInside)
         self.commentBtn.frame = CGRectMake(80, 0, 80, 35)
         self.layer.cornerRadius = 5
         self.layer.masksToBounds = true
@@ -38,31 +38,14 @@ class Menu:UIView{
     func clickMenu(){
         if(self.show){
             //按钮隐藏
-            
             menuHide()
         }
         else{
-            
             menuShow()
         }
     }
     
-    func LikeBtn(){
-
-        
-        if flag1{
-            self.likeBtn.setTitle("赞", forState: .Normal)
-            self.flag1 = false
-            menuHide()
-        }
-        else{
-            self.likeBtn.setTitle("取消赞", forState: .Normal)
-            self.flag1 = true
-            menuHide()
-        }
-        
-    }
-
+    
     
     func menuShow(){
         self.show = true

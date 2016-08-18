@@ -106,9 +106,9 @@ var dataItem = [
     ]
 ]
 
-let goodComm = [
+var goodComm = [
     [
-        "good":["Tom","Jerry"],
+        "good":[],
         "commentName":[
             "Tom",
             "Jerry"

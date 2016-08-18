@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA22F6921D6588B500D5115B /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22F6911D6588B500D5115B /* CommentView.swift */; };
 		EA49241C1D59796D00806300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49241B1D59796D00806300 /* AppDelegate.swift */; };
 		EA49241E1D59796D00806300 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49241D1D59796D00806300 /* ViewController.swift */; };
 		EA4924211D59796D00806300 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA49241F1D59796D00806300 /* Main.storyboard */; };
@@ -129,6 +130,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA22F6911D6588B500D5115B /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EA4924181D59796D00806300 /* Demo_checkCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_checkCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA49241B1D59796D00806300 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA49241D1D59796D00806300 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				EAD0E0221D5AFB6C006716FB /* extension.swift */,
 				EAD0E0241D5B0D1F006716FB /* data.swift */,
 				EA914AA11D5D65B4005B3662 /* Menu.swift */,
+				EA22F6911D6588B500D5115B /* CommentView.swift */,
 			);
 			path = Demo_checkCell;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				EACC1B9F1D5B314D008AF967 /* UIImageView+Haneke.swift in Sources */,
 				EACC1B301D5B30C9008AF967 /* ItemCell.swift in Sources */,
 				EACC1B921D5B314D008AF967 /* DiskFetcher.swift in Sources */,
+				EA22F6921D6588B500D5115B /* CommentView.swift in Sources */,
 				EACC1B8E1D5B314D008AF967 /* CGSize+Swift.swift in Sources */,
 				EACC1B2E1D5B30C9008AF967 /* PhotoBrowser.swift in Sources */,
 				EACC1B961D5B314D008AF967 /* Haneke.swift in Sources */,

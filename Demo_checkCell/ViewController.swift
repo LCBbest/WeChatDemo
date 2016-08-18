@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let avatorImage = UIImageView()
     var biaozhi = true
     var selectItems: [Bool] = []
+    var likeItems:[Bool] = []
     override func loadView() {
         super.loadView()
     }
@@ -27,6 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         for i in 0...dataItem.count{
             selectItems.append(false)
+            likeItems.append(false)
         }
         refreshControl.addTarget(self, action: #selector(ViewController.refreshData),
             forControlEvents: UIControlEvents.ValueChanged)
@@ -78,14 +80,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if cell == nil{
             cell = defalutTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
         }
-        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]! as! [String])
+        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]!,likeItem:likeItems[indexPath.row])
         cell!.displayView.tapedImageV = {[unowned self] index in
             cell!.pbVC.show(inVC: self,index: index)
         }
         cell!.selectionStyle = .None
         cell!.heightZhi = { cellflag in
             self.selectItems[indexPath.row] = cellflag
-            print(self.selectItems[indexPath.row])
+            //print(self.selectItems[indexPath.row])
+            self.tableView?.reloadData()
+        }
+        cell!.likechange = { cellflag in
+            self.likeItems[indexPath.row] = cellflag
+            print(self.likeItems[indexPath.row])
             self.tableView?.reloadData()
         }
         return cell!
