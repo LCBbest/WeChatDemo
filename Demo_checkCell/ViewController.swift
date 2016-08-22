@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate {
     
     
     var tableView:UITableView?
@@ -20,16 +20,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var biaozhi = true
     var selectItems: [Bool] = []
     var likeItems:[Bool] = []
+    var commentItems:[Bool] = []
+    var replyViewDraw:CGFloat!
+    var test = UITextField()
+    var commentView = pingLunFun()
     override func loadView() {
         super.loadView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0...dataItem.count{
+        for _ in 0...dataItem.count{
             selectItems.append(false)
             likeItems.append(false)
+            commentItems.append(false)
         }
+        test.delegate = self
+        self.commentView.commentTextField.delegate = self
         refreshControl.addTarget(self, action: #selector(ViewController.refreshData),
             forControlEvents: UIControlEvents.ValueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "下拉刷新数据")
@@ -42,7 +49,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView?.addSubview(refreshControl)
         self.tableView!.allowsMultipleSelection = true
         self.view.backgroundColor = UIColor.whiteColor()
-        
+        commentView.frame = CGRectMake(0,0,self.view.bounds.width,30)
+        commentView.hidden = true
+        self.view.addSubview(self.commentView)
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTap(_:))))
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(ViewController.keyBoardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(ViewController.keyBoardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
     }
     
     func refreshData() {
@@ -80,28 +92,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if cell == nil{
             cell = defalutTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
         }
-        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]!,likeItem:likeItems[indexPath.row])
+        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]!,likeItem:likeItems[indexPath.row],CommentNameArray:goodComm[indexPath.row]["commentName"]! as! [String],CommentArray:goodComm[indexPath.row]["comment"]! as! [String],commentItem:commentItems[indexPath.row])
         cell!.displayView.tapedImageV = {[unowned self] index in
             cell!.pbVC.show(inVC: self,index: index)
         }
         cell!.selectionStyle = .None
+        
         cell!.heightZhi = { cellflag in
             self.selectItems[indexPath.row] = cellflag
-            //print(self.selectItems[indexPath.row])
             self.tableView?.reloadData()
         }
         cell!.likechange = { cellflag in
             self.likeItems[indexPath.row] = cellflag
-            print(self.likeItems[indexPath.row])
             self.tableView?.reloadData()
+        }
+        cell!.commentchange = { _ in
+            self.replyViewDraw = cell!.convertRect(cell!.bounds,toView:self.view.window).origin.y + cell!.frame.size.height
+            self.commentView.commentTextField.becomeFirstResponder()
+            
         }
         return cell!
     }
+    
+    
+    
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
         var h_content = cellHeightByData(dataItem[indexPath.row]["content"]! as! String)
         let h_image = cellHeightByData1(dataItem[indexPath.row]["imageUrls"]!.count)
         var h_like:CGFloat = 0.0
+        var h_comment = cellHeightByCommentNum(goodComm[indexPath.row]["commentName"]!.count)
         if h_content>13*5{
             if !self.selectItems[indexPath.row]{
                 h_content = 13*5
@@ -110,7 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if goodComm[indexPath.row]["good"]!.count > 0{
             h_like = 40
         }
-        return h_content + h_image + 50 + 20 + h_like
+        return h_content + h_image + 50 + 20 + h_like + h_comment
     }
 
     func headerView() ->UIView{
@@ -149,8 +169,62 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .Ended {
+            self.commentView.commentTextField.resignFirstResponder()
+        }
+        sender.cancelsTouchesInView = false
+    }
     
+    func keyBoardWillShow(note:NSNotification)
+    {
+        
+        
+        let userInfo  = note.userInfo as! NSDictionary
+        let keyBoardBounds = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let deltaY = keyBoardBounds.size.height
+        let commentY = self.view.frame.height - deltaY
+        var frame = self.commentView.frame
+        let animations:(() -> Void) = {
+            self.commentView.hidden = false
+            self.commentView.frame.origin.y = commentY - 30
+            frame.origin.y = commentY
+            var point:CGPoint = self.tableView!.contentOffset
+            point.y -= (frame.origin.y - self.replyViewDraw)
+            self.tableView!.contentOffset = point
+        }
+        
+        if duration > 0 {
+            let options = UIViewAnimationOptions(rawValue: UInt((userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).integerValue << 16))
+            UIView.animateWithDuration(duration, delay: 0, options:options, animations: animations, completion: nil)
+        }else{
+            animations()
+        }
+    }
     
+    func keyBoardWillHide(note:NSNotification)
+    {
+        
+        let userInfo  = note.userInfo as! NSDictionary
+        let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let animations:(() -> Void) = {
+            self.commentView.hidden = true
+            self.commentView.transform = CGAffineTransformIdentity
+            self.tableView!.frame.origin.y = 0
+        }
+        
+        if duration > 0 {
+            let options = UIViewAnimationOptions(rawValue: UInt((userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).integerValue << 16))
+            
+            UIView.animateWithDuration(duration, delay: 0, options:options, animations: animations, completion: nil)
+            
+        }else{
+            
+            animations()
+        }
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

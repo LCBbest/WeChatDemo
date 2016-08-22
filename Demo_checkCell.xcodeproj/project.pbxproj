@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA22F6921D6588B500D5115B /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22F6911D6588B500D5115B /* CommentView.swift */; };
+		EA10BF761D66B06A003C6E74 /* pingLunFun.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA10BF751D66B06A003C6E74 /* pingLunFun.swift */; };
+		EA22F6921D6588B500D5115B /* Comment_Like_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA22F6911D6588B500D5115B /* Comment_Like_View.swift */; };
 		EA49241C1D59796D00806300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49241B1D59796D00806300 /* AppDelegate.swift */; };
 		EA49241E1D59796D00806300 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49241D1D59796D00806300 /* ViewController.swift */; };
 		EA4924211D59796D00806300 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA49241F1D59796D00806300 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 		EA4924261D59796D00806300 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA4924241D59796D00806300 /* LaunchScreen.storyboard */; };
 		EA4924311D59796D00806300 /* Demo_checkCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4924301D59796D00806300 /* Demo_checkCellTests.swift */; };
 		EA49243C1D59796D00806300 /* Demo_checkCellUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49243B1D59796D00806300 /* Demo_checkCellUITests.swift */; };
+		EA6D31971D6AE4400055FD49 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6D31961D6AE4400055FD49 /* CommentView.swift */; };
 		EA914AA21D5D65B4005B3662 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA914AA11D5D65B4005B3662 /* Menu.swift */; };
 		EACC1B241D5B30C9008AF967 /* PhotoBrowser+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACC1B111D5B30C9008AF967 /* PhotoBrowser+Common.swift */; };
 		EACC1B251D5B30C9008AF967 /* pic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EACC1B121D5B30C9008AF967 /* pic.bundle */; };
@@ -130,7 +132,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EA22F6911D6588B500D5115B /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		EA10BF751D66B06A003C6E74 /* pingLunFun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pingLunFun.swift; sourceTree = "<group>"; };
+		EA22F6911D6588B500D5115B /* Comment_Like_View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment_Like_View.swift; sourceTree = "<group>"; };
 		EA4924181D59796D00806300 /* Demo_checkCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_checkCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA49241B1D59796D00806300 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA49241D1D59796D00806300 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 		EA4924371D59796D00806300 /* Demo_checkCellUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Demo_checkCellUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA49243B1D59796D00806300 /* Demo_checkCellUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo_checkCellUITests.swift; sourceTree = "<group>"; };
 		EA49243D1D59796D00806300 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA6D31961D6AE4400055FD49 /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		EA914AA11D5D65B4005B3662 /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		EACC1B111D5B30C9008AF967 /* PhotoBrowser+Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoBrowser+Common.swift"; sourceTree = "<group>"; };
 		EACC1B121D5B30C9008AF967 /* pic.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pic.bundle; sourceTree = "<group>"; };
@@ -305,7 +309,9 @@
 				EAD0E0221D5AFB6C006716FB /* extension.swift */,
 				EAD0E0241D5B0D1F006716FB /* data.swift */,
 				EA914AA11D5D65B4005B3662 /* Menu.swift */,
-				EA22F6911D6588B500D5115B /* CommentView.swift */,
+				EA22F6911D6588B500D5115B /* Comment_Like_View.swift */,
+				EA10BF751D66B06A003C6E74 /* pingLunFun.swift */,
+				EA6D31961D6AE4400055FD49 /* CommentView.swift */,
 			);
 			path = Demo_checkCell;
 			sourceTree = "<group>";
@@ -682,6 +688,7 @@
 				EACC1BBD1D5B314D008AF967 /* NVActivityIndicatorAnimationSquareSpin.swift in Sources */,
 				EA49241E1D59796D00806300 /* ViewController.swift in Sources */,
 				EACC1BBE1D5B314D008AF967 /* NVActivityIndicatorAnimationTriangleSkewSpin.swift in Sources */,
+				EA6D31971D6AE4400055FD49 /* CommentView.swift in Sources */,
 				EA914AA21D5D65B4005B3662 /* Menu.swift in Sources */,
 				EACC1BB91D5B314D008AF967 /* NVActivityIndicatorAnimationLineScalePulseOutRapid.swift in Sources */,
 				EACC1BA91D5B314D008AF967 /* NVActivityIndicatorAnimationBallPulseSync.swift in Sources */,
@@ -706,7 +713,7 @@
 				EACC1B9F1D5B314D008AF967 /* UIImageView+Haneke.swift in Sources */,
 				EACC1B301D5B30C9008AF967 /* ItemCell.swift in Sources */,
 				EACC1B921D5B314D008AF967 /* DiskFetcher.swift in Sources */,
-				EA22F6921D6588B500D5115B /* CommentView.swift in Sources */,
+				EA22F6921D6588B500D5115B /* Comment_Like_View.swift in Sources */,
 				EACC1B8E1D5B314D008AF967 /* CGSize+Swift.swift in Sources */,
 				EACC1B2E1D5B30C9008AF967 /* PhotoBrowser.swift in Sources */,
 				EACC1B961D5B314D008AF967 /* Haneke.swift in Sources */,
@@ -720,6 +727,7 @@
 				EACC1BC11D5B314D008AF967 /* NVActivityIndicatorView.swift in Sources */,
 				EACC1B2C1D5B30C9008AF967 /* Layout.swift in Sources */,
 				EACC1B2B1D5B30C9008AF967 /* PhotoBrowser+ZoomAnim.swift in Sources */,
+				EA10BF761D66B06A003C6E74 /* pingLunFun.swift in Sources */,
 				EAD0E0251D5B0D1F006716FB /* data.swift in Sources */,
 				EACC1BA51D5B314D008AF967 /* NVActivityIndicatorAnimationBallGridBeat.swift in Sources */,
 				EACC1B7F1D5B314D008AF967 /* CFSnapKit.swift in Sources */,

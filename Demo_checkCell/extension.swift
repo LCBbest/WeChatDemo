@@ -63,5 +63,8 @@ func cellHeightByData1(imageNum:Int)->CGFloat{
     
 }
 
+func cellHeightByCommentNum(Comment:Int)->CGFloat{
+    return CGFloat(Comment * 20)
+}
 
 

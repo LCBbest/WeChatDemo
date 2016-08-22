@@ -10,6 +10,7 @@ import UIKit
 
 typealias heightChange = (cellFlag:Bool) -> Void
 typealias likeChange = (cellFlag:Bool) -> Void
+typealias commentChange = () -> Void
 
 class defalutTableViewCell: UITableViewCell {
     var flag = true
@@ -30,9 +31,12 @@ class defalutTableViewCell: UITableViewCell {
     var cellflag1 = false
     var heightZhi:heightChange?
     var likechange:likeChange?
-    var likeView = CommentView()
-    var likeLabelArray:[String] = []
+    var commentchange:commentChange?
+    var likeView = Comment_Like_View()
     
+    var likeLabelArray:[String] = []
+    var commentView = pingLunFun()
+    var commentNameLabel = UILabel()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -78,7 +82,7 @@ class defalutTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String],likeItem:Bool){
+    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String],likeItem:Bool,CommentNameArray:[String],CommentArray:[String],commentItem:Bool){
         var h = cellHeightByData(content)
         let h1 = cellHeightByData1(imgData.count)
         var h2:CGFloat = 0.0
@@ -139,6 +143,7 @@ class defalutTableViewCell: UITableViewCell {
         self.menuview.commentBtn.titleLabel?.font = UIFont.systemFontOfSize(14)
         self.menuview.likeBtn.tag = indexRow.row
         self.menuview.likeBtn.addTarget(self, action: #selector(defalutTableViewCell.LikeBtn(_:)), forControlEvents: .TouchUpInside)
+        self.menuview.commentBtn.addTarget(self, action: #selector(defalutTableViewCell.CommentBtn(_:)), forControlEvents: .TouchUpInside)
         for i in 0..<imgData.count{
             let imgUrl = imgData[i]
             self.remoteImage.append(imgUrl)
@@ -149,20 +154,32 @@ class defalutTableViewCell: UITableViewCell {
         pbVC.photoType = PhotoBrowser.PhotoType.Host
         pbVC.hideMsgForZoomAndDismissWithSingleTap = true
         var models: [PhotoBrowser.PhotoModel] = []
-        //模型数据数组
         for i in 0 ..< self.remoteThumbImage[indexRow]!.count{
             let model = PhotoBrowser.PhotoModel(hostHDImgURL:self.remoteThumbImage[indexRow]![i], hostThumbnailImg: (displayView.subviews[i] as! UIImageView).image, titleStr: "", descStr: "", sourceView: displayView.subviews[i])
             models.append(model)
         }
-        /**  设置数据  */
         pbVC.photoModels = models
         if like.count > 0{
+            
             self.likeView.frame = CGRectMake(55,h2+19.5,UIScreen.mainScreen().bounds.width - 10 - 55 - 15,40)
             for i in 0..<like.count{
                 likeLabelArray.append(like[i])
             }
             self.likeView.likeLabel.text = likeLabelArray.joinWithSeparator(",")
             self.contentView.addSubview(self.likeView)
+        }
+        if CommentNameArray.count>0{
+            var h3 = h2+19.5+20
+            if like.count == 0{
+                 h3 = h2+19.5
+            }
+            for i in 0..<CommentNameArray.count{
+                let comment_view = CommentView()
+                comment_view.frame = CGRectMake(55,h3+(CGFloat(i*20)),UIScreen.mainScreen().bounds.width - 10 - 55 - 15,20)
+                comment_view.nameLabel.text = CommentNameArray[i]
+                comment_view.commentLabel.text = CommentArray[i]
+                self.contentView.addSubview(comment_view)
+            }
         }
         self.contentView.addSubview(self.menuview)
     }
@@ -185,6 +202,13 @@ class defalutTableViewCell: UITableViewCell {
         
     }
     
+    func CommentBtn(sender:UIButton){
+        if self.commentchange != nil{
+            self.commentchange!()
+        }
+        menuview.menuHide()
+    }
+
     func LikeBtn(sender:UIButton){
         
         
@@ -206,6 +230,4 @@ class defalutTableViewCell: UITableViewCell {
         }
         
     }
-
-
 }
