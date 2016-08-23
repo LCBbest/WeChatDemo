@@ -20,7 +20,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var biaozhi = true
     var selectItems: [Bool] = []
     var likeItems:[Bool] = []
-    var commentItems:[Bool] = []
     var replyViewDraw:CGFloat!
     var test = UITextField()
     var commentView = pingLunFun()
@@ -33,7 +32,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         for _ in 0...dataItem.count{
             selectItems.append(false)
             likeItems.append(false)
-            commentItems.append(false)
         }
         test.delegate = self
         self.commentView.commentTextField.delegate = self
@@ -92,7 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if cell == nil{
             cell = defalutTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
         }
-        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]!,likeItem:likeItems[indexPath.row],CommentNameArray:goodComm[indexPath.row]["commentName"]! as! [String],CommentArray:goodComm[indexPath.row]["comment"]! as! [String],commentItem:commentItems[indexPath.row])
+        cell!.setData(dataItem[indexPath.row]["name"]! as! String, imagePic: dataItem[indexPath.row]["avator"]! as! String,content: dataItem[indexPath.row]["content"]! as! String,imgData: dataItem[indexPath.row]["imageUrls"]! as! [String],indexRow:indexPath,selectItem: selectItems[indexPath.row],like:goodComm[indexPath.row]["good"]!,likeItem:likeItems[indexPath.row],CommentNameArray:goodComm[indexPath.row]["commentName"]! ,CommentArray:goodComm[indexPath.row]["comment"]! )
         cell!.displayView.tapedImageV = {[unowned self] index in
             cell!.pbVC.show(inVC: self,index: index)
         }
@@ -109,19 +107,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell!.commentchange = { _ in
             self.replyViewDraw = cell!.convertRect(cell!.bounds,toView:self.view.window).origin.y + cell!.frame.size.height
             self.commentView.commentTextField.becomeFirstResponder()
-            
+            self.commentView.sendBtn.addTarget(self, action: #selector(ViewController.sendComment(_:)), forControlEvents:.TouchUpInside)
+            self.commentView.sendBtn.tag = indexPath.row
         }
         return cell!
     }
-    
-    
-    
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
         var h_content = cellHeightByData(dataItem[indexPath.row]["content"]! as! String)
         let h_image = cellHeightByData1(dataItem[indexPath.row]["imageUrls"]!.count)
         var h_like:CGFloat = 0.0
-        var h_comment = cellHeightByCommentNum(goodComm[indexPath.row]["commentName"]!.count)
+        let h_comment = cellHeightByCommentNum(goodComm[indexPath.row]["commentName"]!.count)
         if h_content>13*5{
             if !self.selectItems[indexPath.row]{
                 h_content = 13*5
@@ -179,7 +175,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func keyBoardWillShow(note:NSNotification)
     {
         
-        
         let userInfo  = note.userInfo as! NSDictionary
         let keyBoardBounds = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
@@ -220,9 +215,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             UIView.animateWithDuration(duration, delay: 0, options:options, animations: animations, completion: nil)
             
         }else{
-            
             animations()
         }
+    }
+    
+    func sendComment(sender:UIButton){
+        goodComm[sender.tag]["commentName"]!.append("胖大海")
+        goodComm[sender.tag]["comment"]!.append(commentView.commentTextField.text!)
+        self.commentView.commentTextField.resignFirstResponder()
+        self.tableView?.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

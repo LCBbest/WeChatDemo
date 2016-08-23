@@ -31,7 +31,7 @@ class pingLunFun: UIView {
         self.sendBtn.frame = CGRectMake(0,2,60,26)
         self.sendBtn.frame.origin.x = UIScreen.mainScreen().bounds.width - 70
         self.sendBtn.setTitle("发送", forState: .Normal)
-        //self.sendBtn.addTa
+        
         self.sendBtn.layer.borderWidth = 1
         self.sendBtn.layer.cornerRadius = 5
         self.sendBtn.layer.masksToBounds = true
@@ -42,7 +42,7 @@ class pingLunFun: UIView {
         self.addSubview(commentTextField)
         self.addSubview(sendBtn)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -82,7 +82,7 @@ class defalutTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String],likeItem:Bool,CommentNameArray:[String],CommentArray:[String],commentItem:Bool){
+    func setData(name:String,imagePic:String,content:String,imgData:[String],indexRow:NSIndexPath,selectItem:Bool,like:[String],likeItem:Bool,CommentNameArray:[String],CommentArray:[String]){
         var h = cellHeightByData(content)
         let h1 = cellHeightByData1(imgData.count)
         var h2:CGFloat = 0.0
